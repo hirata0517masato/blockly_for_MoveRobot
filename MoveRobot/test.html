@@ -1,0 +1,142 @@
+<html>
+<head></head>
+<body>
+
+<button id="showCode">変換する</button>
+<button id="saveCode">保存する</button>
+<br>
+<script src="../blockly_compressed.js"></script>
+<script src="../blocks_compressed.js"></script>
+<script src="../javascript_compressed.js"></script>
+
+<script src="../msg/js/ja.js"></script>
+
+<script src="output_block.js"></script>
+<script src="input_block.js"></script>
+<script src="custom_block.js"></script>
+
+
+<div id="blocklyDiv" style="height: 480px; width: 800px; float:left;"></div>
+<div style="height: 480px; width: 400px; border-radius: 10px; box-shadow: 5px 5px 5px #AAA; float:left; border-style: solid ; border-width: 1px;"><pre id='jsCode'></pre></div>
+
+<xml id="toolbox" style="display: none">
+
+	<category name="もし" colour="210">
+		<block type="controls_if"></block>
+		<block type="controls_ifelse"></block>
+  		<block type="logic_compare"></block>
+    	<block type="logic_operation"></block>
+		<block type="logic_boolean"></block>
+    	<block type="math_number"></block>
+  	</category>
+  	
+  	<category name="数字" colour="210">
+
+    	<block type="math_number"></block>
+    	<block type="math_arithmetic"></block>
+  	</category>
+  	
+  	<category name="変数" colour="330" custom="VARIABLE">
+  	</category>
+
+    <category name="くりかえし" colour="120">
+      <block type="controls_repeat_ext"></block>
+      <block type="controls_repeat"></block>
+      <block type="controls_whileUntil"></block>
+      <block type="controls_for"></block>
+      <block type="start"></block>
+    </category>
+
+	<category name="モータ" colour="60">
+    	<block type="motor_f"></block>
+    	<block type="motor_b"></block>
+    	<block type="motor_l"></block>
+    	<block type="motor_r"></block>
+    	<block type="motor"></block>
+	</category>
+
+	<category name="センサー" colour="000">
+    	<block type="bumper"></block>
+    	<block type="compass"></block>
+    	<block type="distance_f"></block>
+    	<block type="distance_b"></block>
+    	<block type="distance_l"></block>
+    	<block type="distance_r"></block>
+	</category>
+</xml>
+
+
+<script>
+
+	var workspacePlayground = Blockly.inject(
+  		'blocklyDiv',
+  	{
+    	toolbox: document.getElementById('toolbox'),
+    	grid: {
+      		spacing: 18,
+      		length: 3,
+      		colour: '#ccc',
+      		snap: true,
+    	},
+    	trashcan: true,
+    	zoom: {
+      		controls: true,
+      		wheel: true,
+      		startScale: 1.0,
+      		maxScale: 3,
+      		minScale: 0.3,
+      		scaleSpeed: 1.2,
+    	},
+  	},);
+
+	function showCode() {
+  		Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+  		const pre = document.getElementById('jsCode');
+
+  		var code = Blockly.JavaScript.workspaceToCode(workspacePlayground);
+		
+		code = code.replace( /var/g , "int" ) ;
+		code = code.replace( /true/g , "1" ) ;
+		code = code.replace( /false/g , "0" ) ;
+
+		var index;
+		while( index = code.indexOf('typeof'),index != -1) {
+			var R = code.indexOf( ")", index );
+			code = code.substr(0, index-3) + code.substr(R+1);
+			var P = code.indexOf( "+", index-3 );
+			code = insertStr(code, P+1, '=');
+		}
+		
+  		pre.innerHTML = code;
+	}
+
+	function saveCode(){
+		const code = Blockly.JavaScript.workspaceToCode(workspacePlayground);
+		download(new Blob([code]), 'Blockly_code.txt');
+	}
+
+	function insertStr(str, index, insert) {
+    	return str.slice(0, index) + insert + str.slice(index, str.length);
+	}
+	
+	function download(blob, filename) {
+  		const objectURL = window.URL.createObjectURL(blob),
+      	a = document.createElement('a'),
+      	e = document.createEvent('MouseEvent');
+
+  		//a要素のdownload属性にファイル名を設定
+  		a.download = filename;
+  		a.href = objectURL;
+
+  		//clickイベントを着火
+  		e.initEvent("click", true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
+  		a.dispatchEvent(e);
+	}
+
+
+	document.getElementById('showCode').addEventListener('click', showCode, false);
+	document.getElementById('saveCode').addEventListener('click', saveCode, false);
+</script>
+
+</body>
+</html>
