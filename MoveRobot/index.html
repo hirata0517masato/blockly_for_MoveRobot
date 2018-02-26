@@ -4,6 +4,7 @@
 
 <button id="showCode">変換する</button>
 <button id="saveCode">保存する</button>
+<button id="copyCode">コピーする</button>
 <br>
 <script src="../blockly_compressed.js"></script>
 <script src="../blocks_compressed.js"></script>
@@ -27,31 +28,24 @@
   		<block type="logic_compare"></block>
     	<block type="logic_operation"></block>
 		<block type="logic_boolean"></block>
-    	<block type="math_number"></block>
   	</category>
   	
-  	<category name="数字" colour="210">
-
-    	<block type="math_number"></block>
-    	<block type="math_arithmetic"></block>
-  	</category>
-  	
-  	<category name="変数" colour="330" custom="VARIABLE">
-  	</category>
-
-    <category name="くりかえし" colour="120">
+  	<category name="くりかえし" colour="120">
+	  <block type="start"></block>
       <block type="controls_repeat_ext"></block>
       <block type="controls_repeat"></block>
       <block type="controls_whileUntil"></block>
       <block type="controls_for"></block>
-      <block type="start"></block>
     </category>
 
-	<category name="モータ" colour="60">
+    <category name="モータ" colour="60">
     	<block type="motor_f"></block>
+    	<block type="motor_stop"></block>
     	<block type="motor_b"></block>
     	<block type="motor_l"></block>
     	<block type="motor_r"></block>
+    	<block type="motor_ll"></block>
+    	<block type="motor_rl"></block>
     	<block type="motor"></block>
 	</category>
 
@@ -63,6 +57,16 @@
     	<block type="distance_l"></block>
     	<block type="distance_r"></block>
 	</category>
+	
+  	<category name="すうじ" colour="230">
+
+    	<block type="math_number"></block>
+    	<block type="math_arithmetic"></block>
+  	</category>
+  	
+  	<category name="変数" colour="330" custom="VARIABLE">
+  	</category>
+
 </xml>
 
 
@@ -115,6 +119,16 @@
 		download(new Blob([code]), 'Blockly_code.txt');
 	}
 
+	function copyCode(){
+		var code = Blockly.JavaScript.workspaceToCode(workspacePlayground);
+		code = code.replace( /<br>/g , '\n' ) ;
+		if(execCopy(code)){
+    		alert('コピーできました');
+  		}else {
+    		alert('このブラウザでは対応していません');
+  		}
+	}
+	
 	function insertStr(str, index, insert) {
     	return str.slice(0, index) + insert + str.slice(index, str.length);
 	}
@@ -132,11 +146,32 @@
   		e.initEvent("click", true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
   		a.dispatchEvent(e);
 	}
+	
+	function execCopy(string){
+  		var temp = document.createElement('div');
+
+  		temp.appendChild(document.createElement('pre')).textContent = string;
+
+  		var s = temp.style;
+  		s.position = 'fixed';
+  		s.left = '-100%';
+
+  		document.body.appendChild(temp);
+  		document.getSelection().selectAllChildren(temp);
+
+  		var result = document.execCommand('copy');
+
+  		document.body.removeChild(temp);
+  		// true なら実行できている falseなら失敗か対応していないか
+  		return result;
+	}
 
 
 	document.getElementById('showCode').addEventListener('click', showCode, false);
 	document.getElementById('saveCode').addEventListener('click', saveCode, false);
+	document.getElementById('copyCode').addEventListener('click', copyCode, false);
 </script>
 
 </body>
 </html>
+
