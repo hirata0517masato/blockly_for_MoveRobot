@@ -95,3 +95,54 @@ Blockly.Blocks.motor_r = {
 Blockly.JavaScript.motor_r = function(block) {
   return "motor( 60 , 40 ); <br>";
 };
+
+Blockly.Blocks.motor_stop = {
+  init() {
+    this.jsonInit({
+        message0: 'モータ とまる',
+      "previousStatement": null,
+      "nextStatement": null,
+      inputsInline: true,
+      colour: 60,
+      
+    });
+  },
+};
+
+Blockly.JavaScript.motor_stop = function(block) {
+  return "motor( 0 , 0 ); <br>";
+};
+
+Blockly.Blocks.motor_ll = {
+  init() {
+    this.jsonInit({
+        message0: 'モータ 左かいてん',
+      "previousStatement": null,
+      "nextStatement": null,
+      inputsInline: true,
+      colour: 60,
+      
+    });
+  },
+};
+
+Blockly.JavaScript.motor_ll = function(block) {
+  return "motor( -50 , 50 ); <br>";
+};
+
+Blockly.Blocks.motor_rl = {
+  init() {
+    this.jsonInit({
+        message0: 'モータ 右かいてん',
+      "previousStatement": null,
+      "nextStatement": null,
+      inputsInline: true,
+      colour: 60,
+      
+    });
+  },
+};
+
+Blockly.JavaScript.motor_rl = function(block) {
+  return "motor( 50 , -50 ); <br>";
+};
