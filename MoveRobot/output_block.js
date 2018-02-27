@@ -31,7 +31,7 @@ Blockly.JavaScript.motor = function(block) {
 Blockly.Blocks.motor_f = {
   init() {
     this.jsonInit({
-        message0: 'モータ 前',
+        message0: 'モータ すすむ',
       "previousStatement": null,
       "nextStatement": null,
       inputsInline: true,
@@ -48,7 +48,7 @@ Blockly.JavaScript.motor_f = function(block) {
 Blockly.Blocks.motor_b = {
   init() {
     this.jsonInit({
-        message0: 'モータ 後ろ',
+        message0: 'モータ さがる',
       "previousStatement": null,
       "nextStatement": null,
       inputsInline: true,
