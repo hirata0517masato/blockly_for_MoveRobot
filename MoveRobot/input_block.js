@@ -1,7 +1,7 @@
 Blockly.Blocks.bumper = {
   init() {
     this.jsonInit({
-    	message0: 'バンパー',
+    	message0: 'バンパーが当たっていたら',
       output: 'Boolean',
       inputsInline: true,
       colour: 000,
