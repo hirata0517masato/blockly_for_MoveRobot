@@ -97,30 +97,18 @@
   		Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
   		const pre = document.getElementById('jsCode');
 
-  		var code = Blockly.JavaScript.workspaceToCode(workspacePlayground);
-		
-		code = code.replace( /var/g , "int" ) ;
-		code = code.replace( /true/g , "1" ) ;
-		code = code.replace( /false/g , "0" ) ;
-
-		var index;
-		while( index = code.indexOf('typeof'),index != -1) {
-			var R = code.indexOf( ")", index );
-			code = code.substr(0, index-3) + code.substr(R+1);
-			var P = code.indexOf( "+", index-3 );
-			code = insertStr(code, P+1, '=');
-		}
+  		var code = trans();
 		
   		pre.innerHTML = code;
 	}
 
 	function saveCode(){
-		const code = Blockly.JavaScript.workspaceToCode(workspacePlayground);
+		const code = trans();
 		download(new Blob([code]), 'Blockly_code.txt');
 	}
 
 	function copyCode(){
-		var code = Blockly.JavaScript.workspaceToCode(workspacePlayground);
+		var code = trans();
 		code = code.replace( /<br>/g , '\n' ) ;
 		if(execCopy(code)){
     		alert('コピーできました');
@@ -166,7 +154,22 @@
   		return result;
 	}
 
+	function trans(){
+		var code = Blockly.JavaScript.workspaceToCode(workspacePlayground);
+		
+		code = code.replace( /var/g , "int" ) ;
+		code = code.replace( /true/g , "1" ) ;
+		code = code.replace( /false/g , "0" ) ;
 
+		var index;
+		while( index = code.indexOf('typeof'),index != -1) {
+			var R = code.indexOf( ")", index );
+			code = code.substr(0, index-3) + code.substr(R+1);
+			var P = code.indexOf( "+", index-3 );
+			code = insertStr(code, P+1, '=');
+		}
+		return code;
+	}
 	document.getElementById('showCode').addEventListener('click', showCode, false);
 	document.getElementById('saveCode').addEventListener('click', saveCode, false);
 	document.getElementById('copyCode').addEventListener('click', copyCode, false);
@@ -174,4 +177,3 @@
 
 </body>
 </html>
-
