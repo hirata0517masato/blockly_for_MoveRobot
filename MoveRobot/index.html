@@ -103,7 +103,8 @@
 	}
 
 	function saveCode(){
-		const code = trans();
+		var code = trans();
+		code = code.replace( /<br>/g , '\n' ) ;
 		download(new Blob([code]), 'Blockly_code.txt');
 	}
 
