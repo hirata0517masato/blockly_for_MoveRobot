@@ -1,180 +1,133 @@
 <html>
-<head></head>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | MoveRobot</title>
+    
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <script src="TemplateData/UnityProgress.js"></script>  
+    <script src="Build/UnityLoader.js"></script>
+    <script>
+      var gameInstance = UnityLoader.instantiate("gameContainer", "Build/MoveRobot_WebGL.json", {onProgress: UnityProgress});
+    </script>
+
+    <script src="../blockly_compressed.js"></script>
+	<script src="../blocks_compressed.js"></script>
+	<script src="../javascript_compressed.js"></script>
+
+	<script src="../msg/js/ja.js"></script>
+
+	<script src="output_block.js"></script>
+	<script src="input_block.js"></script>
+	<script src="custom_block.js"></script>
+
+	<xml id="toolbox" style="display: none">
+		<category name="もし" colour="210">
+			<block type="controls_if"></block>
+			<block type="controls_ifelse"></block>
+  			<block type="logic_compare"></block>
+	    	<block type="logic_operation"></block>
+			<block type="logic_boolean"></block>
+  		</category>
+  	
+  		<category name="くりかえし" colour="120">
+			<block type="start"></block>
+	      	<block type="controls_repeat_ext"></block>
+	      	<block type="controls_repeat"></block>
+    	  	<block type="controls_whileUntil"></block>
+      	  	<block type="controls_for"></block>
+    	</category>
+
+    	<category name="モータ" colour="60">
+    		<block type="motor_f"></block>
+    		<block type="motor_stop"></block>
+    		<block type="motor_b"></block>
+    		<block type="motor_l"></block>
+    		<block type="motor_r"></block>
+    		<block type="motor_ll"></block>
+    		<block type="motor_rl"></block>
+    		<block type="motor"></block>
+		</category>
+
+		<category name="センサー" colour="000">
+    		<block type="bumper"></block>
+    		<block type="compass"></block>
+    		<block type="distance_f"></block>
+    		<block type="distance_b"></block>
+    		<block type="distance_l"></block>
+    		<block type="distance_r"></block>
+		</category>
+	
+  		<category name="すうじ" colour="230">
+    		<block type="math_number"></block>
+    		<block type="math_arithmetic"></block>
+  		</category>
+  	
+  		<category name="変数" colour="330" custom="VARIABLE">
+  		</category>
+	</xml>
+</head>
 <body>
 
-<button id="showCode">変換する</button>
-<button id="saveCode">保存する</button>
-<button id="copyCode">コピーする</button>
-<br>
-<script src="../blockly_compressed.js"></script>
-<script src="../blocks_compressed.js"></script>
-<script src="../javascript_compressed.js"></script>
-
-<script src="../msg/js/ja.js"></script>
-
-<script src="output_block.js"></script>
-<script src="input_block.js"></script>
-<script src="custom_block.js"></script>
-
-
-<div id="blocklyDiv" style="height: 480px; width: 800px; float:left;"></div>
-<div style="height: 480px; width: 400px; border-radius: 10px; box-shadow: 5px 5px 5px #AAA; float:left; border-style: solid ; border-width: 1px;"><h2><pre id='jsCode'></h2></pre></div>
-
-<xml id="toolbox" style="display: none">
-
-	<category name="もし" colour="210">
-		<block type="controls_if"></block>
-		<block type="controls_ifelse"></block>
-  		<block type="logic_compare"></block>
-    	<block type="logic_operation"></block>
-		<block type="logic_boolean"></block>
-  	</category>
-  	
-  	<category name="くりかえし" colour="120">
-	  <block type="start"></block>
-      <block type="controls_repeat_ext"></block>
-      <block type="controls_repeat"></block>
-      <block type="controls_whileUntil"></block>
-      <block type="controls_for"></block>
-    </category>
-
-    <category name="モータ" colour="60">
-    	<block type="motor_f"></block>
-    	<block type="motor_stop"></block>
-    	<block type="motor_b"></block>
-    	<block type="motor_l"></block>
-    	<block type="motor_r"></block>
-    	<block type="motor_ll"></block>
-    	<block type="motor_rl"></block>
-    	<block type="motor"></block>
-	</category>
-
-	<category name="センサー" colour="000">
-    	<block type="bumper"></block>
-    	<block type="compass"></block>
-    	<block type="distance_f"></block>
-    	<block type="distance_b"></block>
-    	<block type="distance_l"></block>
-    	<block type="distance_r"></block>
-	</category>
+	<button id="showCode">変換する</button>
+	<button id="saveCode">保存する</button>
+	<button id="copyCode">コピーする</button>
+	<br>
 	
-  	<category name="すうじ" colour="230">
+	<div id="blocklyDiv" style="height: 400px; width: 800px; float:left;"></div>
 
-    	<block type="math_number"></block>
-    	<block type="math_arithmetic"></block>
-  	</category>
-  	
-  	<category name="変数" colour="330" custom="VARIABLE">
-  	</category>
-
-</xml>
+	<div>
+	<h2><textarea id="code"
+		 style="height: 480px; width: 400px; border-radius: 10px; box-shadow: 5px 5px 5px #AAA; float:right; border-style: solid ; border-width: 1px;
+		 	-webkit-transform: translate(0%, -5%); transform: translate(0%, -5%);">
+	</textarea></h2>
+	</div>
 
 
-<script>
+	<div class="webgl-content">
+      <div class="gameContainer" id="gameContainer" style="width: 800px; height: 600px"></div>
+      <div class="footer">
+        <div class="webgl-logo"></div>
+      </div>
+    </div>
 
-	var workspacePlayground = Blockly.inject(
-  		'blocklyDiv',
-  	{
-    	toolbox: document.getElementById('toolbox'),
-    	grid: {
-      		spacing: 18,
-      		length: 3,
-      		colour: '#ccc',
-      		snap: true,
-    	},
-    	trashcan: true,
-    	zoom: {
-      		controls: true,
-      		wheel: true,
-      		startScale: 1.0,
-      		maxScale: 3,
-      		minScale: 0.3,
-      		scaleSpeed: 1.2,
-    	},
-  	},);
 
-	function showCode() {
-  		Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
-  		const pre = document.getElementById('jsCode');
+    <script type="text/javascript">
 
-  		var code = trans();
+	//サイズの表示
+	function window_layout() {
+		var window_W = window.innerWidth;
+		var window_H = window.innerHeight;
 		
-  		pre.innerHTML = code;
-	}
-
-	function saveCode(){
-		var code = trans();
-		code = code.replace( /<br>/g , '\n' ) ;
-		download(new Blob([code]), 'Blockly_code.txt');
-	}
-
-	function copyCode(){
-		var code = trans();
-		code = code.replace( /<br>/g , '\n' ) ;
-		if(execCopy(code)){
-    		alert('コピーできました');
-  		}else {
-    		alert('このブラウザでは対応していません');
-  		}
-	}
-	
-	function insertStr(str, index, insert) {
-    	return str.slice(0, index) + insert + str.slice(index, str.length);
-	}
-	
-	function download(blob, filename) {
-  		const objectURL = window.URL.createObjectURL(blob),
-      	a = document.createElement('a'),
-      	e = document.createEvent('MouseEvent');
-
-  		//a要素のdownload属性にファイル名を設定
-  		a.download = filename;
-  		a.href = objectURL;
-
-  		//clickイベントを着火
-  		e.initEvent("click", true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
-  		a.dispatchEvent(e);
-	}
-	
-	function execCopy(string){
-  		var temp = document.createElement('div');
-
-  		temp.appendChild(document.createElement('pre')).textContent = string;
-
-  		var s = temp.style;
-  		s.position = 'fixed';
-  		s.left = '-100%';
-
-  		document.body.appendChild(temp);
-  		document.getSelection().selectAllChildren(temp);
-
-  		var result = document.execCommand('copy');
-
-  		document.body.removeChild(temp);
-  		// true なら実行できている falseなら失敗か対応していないか
-  		return result;
-	}
-
-	function trans(){
-		var code = Blockly.JavaScript.workspaceToCode(workspacePlayground);
+		var gameContainer = document.getElementById("gameContainer");
+		var w = window_W / 2;
+		var h = w/16  *9;
+		gameContainer.style.width = w + "px";
+		gameContainer.style.height = h + "px";
 		
-		code = code.replace( /var/g , "int" ) ;
-		code = code.replace( /true/g , "1" ) ;
-		code = code.replace( /false/g , "0" ) ;
-
-		var index;
-		while( index = code.indexOf('typeof'),index != -1) {
-			var R = code.indexOf( ")", index );
-			code = code.substr(0, index-3) + code.substr(R+1);
-			var P = code.indexOf( "+", index-3 );
-			code = insertStr(code, P+1, '=');
-		}
-		return code;
+		var blocklyDiv = document.getElementById("blocklyDiv");
+		w = window_W *2 /3;
+		h = window_H *2 /3;
+		blocklyDiv.style.width = w + "px";
+		blocklyDiv.style.height = h + "px";
+		
+		var code = document.getElementById("code");
+		w = (window_W /3) * 0.85;
+		h = window_H *2 /3;
+		code.style.width = w + "px";
+		code.style.height = h + "px";
 	}
-	document.getElementById('showCode').addEventListener('click', showCode, false);
-	document.getElementById('saveCode').addEventListener('click', saveCode, false);
-	document.getElementById('copyCode').addEventListener('click', copyCode, false);
-</script>
 
+	window.onload = function(){
+    	window_layout();
+	}
+	window.onresize = function() {
+    	window_layout();
+	}
+	</script> 
+	
+	<script src="blockly_func.js"></script>
+ 
 </body>
 </html>
