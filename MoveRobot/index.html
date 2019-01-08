@@ -70,27 +70,33 @@
 </head>
 <body>
 
-	<button id="showCode">変換する</button>
-	<button id="saveCode">保存する</button>
-	<button id="copyCode">コピーする</button>
+	<button id="showCode">へんかん</button>
+	<button id="saveCode">ほぞん</button>
+	<button id="copyCode">コピー</button>
 	<br>
 	
-	<div id="blocklyDiv" style="height: 400px; width: 800px; float:left;"></div>
+	<div id="blocklyDiv" style="position:absolute; height: 400px; width: 800px;"></div>
 
 	<div>
 	<h2><textarea id="code"
-		 style="height: 480px; width: 400px; border-radius: 10px; box-shadow: 5px 5px 5px #AAA; float:right; border-style: solid ; border-width: 1px;
+		 style="position:absolute; height: 480px; width: 400px; border-radius: 10px; box-shadow: 5px 5px 5px #AAA; border-style: solid ; border-width: 1px;
 		 	-webkit-transform: translate(0%, -5%); transform: translate(0%, -5%);">
 	</textarea></h2>
 	</div>
 
-
-	<div class="webgl-content">
-      <div class="gameContainer" id="gameContainer" style="width: 800px; height: 600px"></div>
+	<div class="webgl-content" id="webgl-content" style="position:absolute">
+      <div class="gameContainer" id="gameContainer" style="position:absolute; width: 800px; height: 600px"></div>
       <div class="footer">
         <div class="webgl-logo"></div>
       </div>
-    </div>
+	</div>
+	
+	<div>
+		<h2><textarea id="obstacle"
+			 style="position:absolute; height: 480px; width: 400px; border-radius: 10px; box-shadow: 5px 5px 5px #AAA; border-style: solid ; border-width: 1px;
+				 -webkit-transform: translate(0%, -5%); transform: translate(0%, -5%);">
+		</textarea></h2>
+	</div>
 
 
     <script type="text/javascript">
@@ -100,23 +106,37 @@
 		var window_W = window.innerWidth;
 		var window_H = window.innerHeight;
 		
-		var gameContainer = document.getElementById("gameContainer");
-		var w = window_W / 2;
-		var h = w/16  *9;
-		gameContainer.style.width = w + "px";
-		gameContainer.style.height = h + "px";
-		
 		var blocklyDiv = document.getElementById("blocklyDiv");
-		w = window_W *2 /3;
-		h = window_H *2 /3;
-		blocklyDiv.style.width = w + "px";
-		blocklyDiv.style.height = h + "px";
-		
+		var blocklyDiv_w = window_W *2 /3;
+		var blocklyDiv_h = window_H *2 /3;
+		blocklyDiv.style.width = blocklyDiv_w + "px";
+		blocklyDiv.style.height = blocklyDiv_h + "px";
+		blocklyDiv.style.left = "0px";
+
 		var code = document.getElementById("code");
-		w = (window_W /3) * 0.85;
-		h = window_H *2 /3;
-		code.style.width = w + "px";
-		code.style.height = h + "px";
+		var code_w = (window_W /3) -20;//* 0.85;
+		var code_h = window_H *2 /3;
+		code.style.width = code_w + "px";
+		code.style.height = code_h + "px";
+		code.style.left = blocklyDiv_w + "px";
+
+		var gameContainer = document.getElementById("gameContainer");
+		var gameContainer_w = window_W / 2;
+		var gameContainer_h = gameContainer_w/16  *9;
+		gameContainer.style.width = gameContainer_w + "px";
+		gameContainer.style.height = gameContainer_h + "px";
+		gameContainer.style.left = "0px";
+		
+		var webglcontent = document.getElementById("webgl-content");
+		webglcontent.style.left = "150px";
+		
+		var obstacle = document.getElementById("obstacle");
+		var obstacle_w = code_w;
+		var obstacle_h = gameContainer_h;
+		obstacle.style.width = obstacle_w + "px";
+		obstacle.style.height = obstacle_h + "px";
+		obstacle.style.left = blocklyDiv_w + "px";
+		obstacle.style.top = (code_h + 70) + "px";
 	}
 
 	window.onload = function(){
