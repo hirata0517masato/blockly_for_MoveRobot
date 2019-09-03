@@ -28,6 +28,9 @@ goog.provide('Blockly.FlyoutDragger');
 
 goog.require('Blockly.WorkspaceDragger');
 
+goog.require('goog.asserts');
+goog.require('goog.math.Coordinate');
+
 
 /**
  * Class for a flyout dragger.  It moves a flyout workspace around when it is

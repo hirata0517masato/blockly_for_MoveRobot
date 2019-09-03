@@ -37,10 +37,13 @@ goog.require('Blockly');
 
 
 /**
- * Unused constant for the common HSV hue for all blocks in this category.
- * @deprecated Use Blockly.Msg['MATH_HUE']. (2018 April 5)
+ * Common HSV hue for all blocks in this category.
+ * Should be the same as Blockly.Msg.MATH_HUE
+ * @readonly
  */
 Blockly.Constants.Math.HUE = 230;
+/** @deprecated Use Blockly.Constants.Math.HUE */
+Blockly.Blocks.math.HUE = Blockly.Constants.Math.HUE;
 
 Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
   // Block for numeric value.
@@ -53,8 +56,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
       "value": 0
     }],
     "output": "Number",
+    "colour": "%{BKY_MATH_HUE}",
     "helpUrl": "%{BKY_MATH_NUMBER_HELPURL}",
-    "style": "math_blocks",
     "tooltip": "%{BKY_MATH_NUMBER_TOOLTIP}",
     "extensions": ["parent_tooltip_when_inline"]
   },
@@ -88,7 +91,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     ],
     "inputsInline": true,
     "output": "Number",
-    "style": "math_blocks",
+    "colour": "%{BKY_MATH_HUE}",
     "helpUrl": "%{BKY_MATH_ARITHMETIC_HELPURL}",
     "extensions": ["math_op_tooltip"]
   },
@@ -118,7 +121,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
       }
     ],
     "output": "Number",
-    "style": "math_blocks",
+    "colour": "%{BKY_MATH_HUE}",
     "helpUrl": "%{BKY_MATH_SINGLE_HELPURL}",
     "extensions": ["math_op_tooltip"]
   },
@@ -147,7 +150,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
       }
     ],
     "output": "Number",
-    "style": "math_blocks",
+    "colour": "%{BKY_MATH_HUE}",
     "helpUrl": "%{BKY_MATH_TRIG_HELPURL}",
     "extensions": ["math_op_tooltip"]
   },
@@ -171,7 +174,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
       }
     ],
     "output": "Number",
-    "style": "math_blocks",
+    "colour": "%{BKY_MATH_HUE}",
     "tooltip": "%{BKY_MATH_CONSTANT_TOOLTIP}",
     "helpUrl": "%{BKY_MATH_CONSTANT_HELPURL}"
   },
@@ -203,7 +206,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     ],
     "inputsInline": true,
     "output": "Boolean",
-    "style": "math_blocks",
+    "colour": "%{BKY_MATH_HUE}",
     "tooltip": "%{BKY_MATH_IS_TOOLTIP}",
     "mutator": "math_is_divisibleby_mutator"
   },
@@ -226,7 +229,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "style": "variable_blocks",
+    "colour": "%{BKY_VARIABLES_HUE}",
     "helpUrl": "%{BKY_MATH_CHANGE_HELPURL}",
     "extensions": ["math_change_tooltip"]
   },
@@ -252,7 +255,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
       }
     ],
     "output": "Number",
-    "style": "math_blocks",
+    "colour": "%{BKY_MATH_HUE}",
     "helpUrl": "%{BKY_MATH_ROUND_HELPURL}",
     "tooltip": "%{BKY_MATH_ROUND_TOOLTIP}"
   },
@@ -284,7 +287,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
       }
     ],
     "output": "Number",
-    "style": "math_blocks",
+    "colour": "%{BKY_MATH_HUE}",
     "helpUrl": "%{BKY_MATH_ONLIST_HELPURL}",
     "mutator": "math_modes_of_list_mutator",
     "extensions": ["math_op_tooltip"]
@@ -308,7 +311,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     ],
     "inputsInline": true,
     "output": "Number",
-    "style": "math_blocks",
+    "colour": "%{BKY_MATH_HUE}",
     "tooltip": "%{BKY_MATH_MODULO_TOOLTIP}",
     "helpUrl": "%{BKY_MATH_MODULO_HELPURL}"
   },
@@ -336,7 +339,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     ],
     "inputsInline": true,
     "output": "Number",
-    "style": "math_blocks",
+    "colour": "%{BKY_MATH_HUE}",
     "tooltip": "%{BKY_MATH_CONSTRAIN_TOOLTIP}",
     "helpUrl": "%{BKY_MATH_CONSTRAIN_HELPURL}"
   },
@@ -359,7 +362,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     ],
     "inputsInline": true,
     "output": "Number",
-    "style": "math_blocks",
+    "colour": "%{BKY_MATH_HUE}",
     "tooltip": "%{BKY_MATH_RANDOM_INT_TOOLTIP}",
     "helpUrl": "%{BKY_MATH_RANDOM_INT_HELPURL}"
   },
@@ -369,32 +372,9 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     "type": "math_random_float",
     "message0": "%{BKY_MATH_RANDOM_FLOAT_TITLE_RANDOM}",
     "output": "Number",
-    "style": "math_blocks",
+    "colour": "%{BKY_MATH_HUE}",
     "tooltip": "%{BKY_MATH_RANDOM_FLOAT_TOOLTIP}",
     "helpUrl": "%{BKY_MATH_RANDOM_FLOAT_HELPURL}"
-  },
-
-  // Block for calculating atan2 of [X] and [Y].
-  {
-    "type": "math_atan2",
-    "message0": "%{BKY_MATH_ATAN2_TITLE}",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "X",
-        "check": "Number"
-      },
-      {
-        "type": "input_value",
-        "name": "Y",
-        "check": "Number"
-      }
-    ],
-    "inputsInline": true,
-    "output": "Number",
-    "style": "math_blocks",
-    "tooltip": "%{BKY_MATH_ATAN2_TOOLTIP}",
-    "helpUrl": "%{BKY_MATH_ATAN2_HELPURL}"
   }
 ]);  // END JSON EXTRACT (Do not delete this comment.)
 
@@ -460,7 +440,7 @@ Blockly.Constants.Math.IS_DIVISIBLEBY_MUTATOR_MIXIN = {
    * @this Blockly.Block
    */
   mutationToDom: function() {
-    var container = Blockly.utils.xml.createElement('mutation');
+    var container = document.createElement('mutation');
     var divisorInput = (this.getFieldValue('PROPERTY') == 'DIVISIBLE_BY');
     container.setAttribute('divisor_input', divisorInput);
     return container;
@@ -504,7 +484,7 @@ Blockly.Constants.Math.IS_DIVISIBLEBY_MUTATOR_MIXIN = {
 Blockly.Constants.Math.IS_DIVISIBLE_MUTATOR_EXTENSION = function() {
   this.getField('PROPERTY').setValidator(function(option) {
     var divisorInput = (option == 'DIVISIBLE_BY');
-    this.getSourceBlock().updateShape_(divisorInput);
+    this.sourceBlock_.updateShape_(divisorInput);
   });
 };
 
@@ -512,9 +492,20 @@ Blockly.Extensions.registerMutator('math_is_divisibleby_mutator',
     Blockly.Constants.Math.IS_DIVISIBLEBY_MUTATOR_MIXIN,
     Blockly.Constants.Math.IS_DIVISIBLE_MUTATOR_EXTENSION);
 
-// Update the tooltip of 'math_change' block to reference the variable.
+/**
+ * Update the tooltip of 'math_change' block to reference the variable.
+ * @this Blockly.Block
+ * @package
+ */
+Blockly.Constants.Math.CHANGE_TOOLTIP_EXTENSION = function() {
+  this.setTooltip(function() {
+    return Blockly.Msg.MATH_CHANGE_TOOLTIP.replace('%1',
+        this.getFieldValue('VAR'));
+  }.bind(this));
+};
+
 Blockly.Extensions.register('math_change_tooltip',
-    Blockly.Extensions.buildTooltipWithFieldText(
+    Blockly.Extensions.buildTooltipWithFieldValue(
         '%{BKY_MATH_CHANGE_TOOLTIP}', 'VAR'));
 
 /**
@@ -545,7 +536,7 @@ Blockly.Constants.Math.LIST_MODES_MUTATOR_MIXIN = {
    * @this Blockly.Block
    */
   mutationToDom: function() {
-    var container = Blockly.utils.xml.createElement('mutation');
+    var container = document.createElement('mutation');
     container.setAttribute('op', this.getFieldValue('OP'));
     return container;
   },

@@ -37,10 +37,13 @@ goog.require('Blockly');
 
 
 /**
- * Unused constant for the common HSV hue for all blocks in this category.
- * @deprecated Use Blockly.Msg['LOOPS_HUE']. (2018 April 5)
+ * Common HSV hue for all blocks in this category.
+ * Should be the same as Blockly.Msg.LOOPS_HUE
+ * @readonly
  */
 Blockly.Constants.Loops.HUE = 120;
+/** @deprecated Use Blockly.Constants.Loops.HUE */
+Blockly.Blocks.loops.HUE = Blockly.Constants.Loops.HUE;
 
 Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
   // Block for repeat n times (external number).
@@ -59,7 +62,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     }],
     "previousStatement": null,
     "nextStatement": null,
-    "style": "loop_blocks",
+    "colour": "%{BKY_LOOPS_HUE}",
     "tooltip": "%{BKY_CONTROLS_REPEAT_TOOLTIP}",
     "helpUrl": "%{BKY_CONTROLS_REPEAT_HELPURL}"
   },
@@ -82,7 +85,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     }],
     "previousStatement": null,
     "nextStatement": null,
-    "style": "loop_blocks",
+    "colour": "%{BKY_LOOPS_HUE}",
     "tooltip": "%{BKY_CONTROLS_REPEAT_TOOLTIP}",
     "helpUrl": "%{BKY_CONTROLS_REPEAT_HELPURL}"
   },
@@ -112,7 +115,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     }],
     "previousStatement": null,
     "nextStatement": null,
-    "style": "loop_blocks",
+    "colour": "%{BKY_LOOPS_HUE}",
     "helpUrl": "%{BKY_CONTROLS_WHILEUNTIL_HELPURL}",
     "extensions": ["controls_whileUntil_tooltip"]
   },
@@ -153,7 +156,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
-    "style": "loop_blocks",
+    "colour": "%{BKY_LOOPS_HUE}",
     "helpUrl": "%{BKY_CONTROLS_FOR_HELPURL}",
     "extensions": [
       "contextMenu_newGetVariableBlock",
@@ -183,7 +186,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     }],
     "previousStatement": null,
     "nextStatement": null,
-    "style": "loop_blocks",
+    "colour": "%{BKY_LOOPS_HUE}",
     "helpUrl": "%{BKY_CONTROLS_FOREACH_HELPURL}",
     "extensions": [
       "contextMenu_newGetVariableBlock",
@@ -203,7 +206,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
       ]
     }],
     "previousStatement": null,
-    "style": "loop_blocks",
+    "colour": "%{BKY_LOOPS_HUE}",
     "helpUrl": "%{BKY_CONTROLS_FLOW_STATEMENTS_HELPURL}",
     "extensions": [
       "controls_flow_tooltip",
@@ -225,7 +228,7 @@ Blockly.Constants.Loops.WHILE_UNTIL_TOOLTIPS = {
 
 Blockly.Extensions.register('controls_whileUntil_tooltip',
     Blockly.Extensions.buildTooltipForDropdown(
-        'MODE', Blockly.Constants.Loops.WHILE_UNTIL_TOOLTIPS));
+      'MODE', Blockly.Constants.Loops.WHILE_UNTIL_TOOLTIPS));
 
 /**
  * Tooltips for the 'controls_flow_statements' block, keyed by FLOW value.
@@ -240,7 +243,7 @@ Blockly.Constants.Loops.BREAK_CONTINUE_TOOLTIPS = {
 
 Blockly.Extensions.register('controls_flow_tooltip',
     Blockly.Extensions.buildTooltipForDropdown(
-        'FLOW', Blockly.Constants.Loops.BREAK_CONTINUE_TOOLTIPS));
+      'FLOW', Blockly.Constants.Loops.BREAK_CONTINUE_TOOLTIPS));
 
 /**
  * Mixin to add a context menu item to create a 'variables_get' block.
@@ -258,19 +261,15 @@ Blockly.Constants.Loops.CUSTOM_CONTEXT_MENU_CREATE_VARIABLES_GET_MIXIN = {
    * @this Blockly.Block
    */
   customContextMenu: function(options) {
-    if (this.isInFlyout) {
-      return;
-    }
-    var variable = this.getField('VAR').getVariable();
-    var varName = variable.name;
+    var varName = this.getFieldValue('VAR');
     if (!this.isCollapsed() && varName != null) {
       var option = {enabled: true};
       option.text =
-          Blockly.Msg['VARIABLES_SET_CREATE_GET'].replace('%1', varName);
-      var xmlField = Blockly.Variables.generateVariableFieldDom(variable);
-      var xmlBlock = Blockly.utils.xml.createElement('block');
+        Blockly.Msg.VARIABLES_SET_CREATE_GET.replace('%1', varName);
+      var xmlField = goog.dom.createDom('field', null, varName);
+      xmlField.setAttribute('name', 'VAR');
+      var xmlBlock = goog.dom.createDom('block', null, xmlField);
       xmlBlock.setAttribute('type', 'variables_get');
-      xmlBlock.appendChild(xmlField);
       option.callback = Blockly.ContextMenu.callbackFactory(this, xmlBlock);
       options.push(option);
     }
@@ -281,11 +280,11 @@ Blockly.Extensions.registerMixin('contextMenu_newGetVariableBlock',
     Blockly.Constants.Loops.CUSTOM_CONTEXT_MENU_CREATE_VARIABLES_GET_MIXIN);
 
 Blockly.Extensions.register('controls_for_tooltip',
-    Blockly.Extensions.buildTooltipWithFieldText(
+    Blockly.Extensions.buildTooltipWithFieldValue(
         '%{BKY_CONTROLS_FOR_TOOLTIP}', 'VAR'));
 
 Blockly.Extensions.register('controls_forEach_tooltip',
-    Blockly.Extensions.buildTooltipWithFieldText(
+    Blockly.Extensions.buildTooltipWithFieldValue(
         '%{BKY_CONTROLS_FOREACH_TOOLTIP}', 'VAR'));
 
 /**
@@ -300,59 +299,40 @@ Blockly.Constants.Loops.CONTROL_FLOW_IN_LOOP_CHECK_MIXIN = {
   /**
    * List of block types that are loops and thus do not need warnings.
    * To add a new loop type add this to your code:
-   * Blockly.Constants.Loops.CONTROL_FLOW_IN_LOOP_CHECK_MIXIN.LOOP_TYPES.push('custom_loop');
+   * Blockly.Blocks['controls_flow_statements'].LOOP_TYPES.push('custom_loop');
    */
-  LOOP_TYPES: [
-    'controls_repeat',
-    'controls_repeat_ext',
-    'controls_forEach',
-    'controls_for',
-    'controls_whileUntil'
-  ],
-
-  /**
-   * Don't automatically add STATEMENT_PREFIX and STATEMENT_SUFFIX to generated
-   * code.  These will be handled manually in this block's generators.
-   */
-  suppressPrefixSuffix: true,
-
-  /**
-   * Is the given block enclosed (at any level) by a loop?
-   * @param {!Blockly.Block} block Current block.
-   * @return {Blockly.Block} The nearest surrounding loop, or null if none.
-   */
-  getSurroundLoop: function(block) {
-    // Is the block nested in a loop?
-    do {
-      if (Blockly.Constants.Loops.CONTROL_FLOW_IN_LOOP_CHECK_MIXIN.LOOP_TYPES
-          .indexOf(block.type) != -1) {
-        return block;
-      }
-      block = block.getSurroundParent();
-    } while (block);
-    return null;
-  },
+  LOOP_TYPES: ['controls_repeat', 'controls_repeat_ext', 'controls_forEach',
+    'controls_for', 'controls_whileUntil'],
 
   /**
    * Called whenever anything on the workspace changes.
    * Add warning if this flow block is not nested inside a loop.
-   * @param {!Blockly.Events.Abstract} _e Change event.
+   * @param {!Blockly.Events.Abstract} e Change event.
    * @this Blockly.Block
    */
-  onchange: function(_e) {
+  onchange: function(/* e */) {
     if (!this.workspace.isDragging || this.workspace.isDragging()) {
       return;  // Don't change state at the start of a drag.
     }
-    if (Blockly.Constants.Loops.CONTROL_FLOW_IN_LOOP_CHECK_MIXIN
-        .getSurroundLoop(this)) {
+    var legal = false;
+    // Is the block nested in a loop?
+    var block = this;
+    do {
+      if (this.LOOP_TYPES.indexOf(block.type) != -1) {
+        legal = true;
+        break;
+      }
+      block = block.getSurroundParent();
+    } while (block);
+    if (legal) {
       this.setWarningText(null);
       if (!this.isInFlyout) {
-        this.setEnabled(true);
+        this.setDisabled(false);
       }
     } else {
-      this.setWarningText(Blockly.Msg['CONTROLS_FLOW_STATEMENTS_WARNING']);
+      this.setWarningText(Blockly.Msg.CONTROLS_FLOW_STATEMENTS_WARNING);
       if (!this.isInFlyout && !this.getInheritedDisabled()) {
-        this.setEnabled(false);
+        this.setDisabled(true);
       }
     }
   }

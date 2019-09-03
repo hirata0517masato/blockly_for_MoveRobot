@@ -33,30 +33,19 @@ Blockly.Dart['procedures_defreturn'] = function(block) {
   // Define a procedure with a return value.
   var funcName = Blockly.Dart.variableDB_.getName(block.getFieldValue('NAME'),
       Blockly.Procedures.NAME_TYPE);
-  var xfix1 = '';
-  if (Blockly.Dart.STATEMENT_PREFIX) {
-    xfix1 += Blockly.Dart.injectId(Blockly.Dart.STATEMENT_PREFIX, block);
-  }
-  if (Blockly.Dart.STATEMENT_SUFFIX) {
-    xfix1 += Blockly.Dart.injectId(Blockly.Dart.STATEMENT_SUFFIX, block);
-  }
-  if (xfix1) {
-    xfix1 = Blockly.Dart.prefixLines(xfix1, Blockly.Dart.INDENT);
-  }
-  var loopTrap = '';
-  if (Blockly.Dart.INFINITE_LOOP_TRAP) {
-    loopTrap = Blockly.Dart.prefixLines(
-        Blockly.Dart.injectId(Blockly.Dart.INFINITE_LOOP_TRAP, block),
-        Blockly.Dart.INDENT);
-  }
   var branch = Blockly.Dart.statementToCode(block, 'STACK');
+  if (Blockly.Dart.STATEMENT_PREFIX) {
+    var id = block.id.replace(/\$/g, '$$$$');  // Issue 251.
+    branch = Blockly.Dart.prefixLines(
+        Blockly.Dart.STATEMENT_PREFIX.replace(/%1/g,
+        '\'' + id + '\''), Blockly.Dart.INDENT) + branch;
+  }
+  if (Blockly.Dart.INFINITE_LOOP_TRAP) {
+    branch = Blockly.Dart.INFINITE_LOOP_TRAP.replace(/%1/g,
+        '\'' + block.id + '\'') + branch;
+  }
   var returnValue = Blockly.Dart.valueToCode(block, 'RETURN',
       Blockly.Dart.ORDER_NONE) || '';
-  var xfix2 = '';
-  if (branch && returnValue) {
-    // After executing the function body, revisit this block for the return.
-    xfix2 = xfix1;
-  }
   if (returnValue) {
     returnValue = Blockly.Dart.INDENT + 'return ' + returnValue + ';\n';
   }
@@ -67,7 +56,7 @@ Blockly.Dart['procedures_defreturn'] = function(block) {
         Blockly.Variables.NAME_TYPE);
   }
   var code = returnType + ' ' + funcName + '(' + args.join(', ') + ') {\n' +
-      xfix1 + loopTrap + branch + xfix2 + returnValue + '}';
+      branch + returnValue + '}';
   code = Blockly.Dart.scrub_(block, code);
   // Add % so as not to collide with helper functions in definitions list.
   Blockly.Dart.definitions_['%' + funcName] = code;
@@ -93,10 +82,15 @@ Blockly.Dart['procedures_callreturn'] = function(block) {
 
 Blockly.Dart['procedures_callnoreturn'] = function(block) {
   // Call a procedure with no return value.
-  // Generated code is for a function call as a statement is the same as a
-  // function call as a value, with the addition of line ending.
-  var tuple = Blockly.Dart['procedures_callreturn'](block);
-  return tuple[0] + ';\n';
+  var funcName = Blockly.Dart.variableDB_.getName(block.getFieldValue('NAME'),
+      Blockly.Procedures.NAME_TYPE);
+  var args = [];
+  for (var i = 0; i < block.arguments_.length; i++) {
+    args[i] = Blockly.Dart.valueToCode(block, 'ARG' + i,
+        Blockly.Dart.ORDER_NONE) || 'null';
+  }
+  var code = funcName + '(' + args.join(', ') + ');\n';
+  return code;
 };
 
 Blockly.Dart['procedures_ifreturn'] = function(block) {
@@ -104,13 +98,6 @@ Blockly.Dart['procedures_ifreturn'] = function(block) {
   var condition = Blockly.Dart.valueToCode(block, 'CONDITION',
       Blockly.Dart.ORDER_NONE) || 'false';
   var code = 'if (' + condition + ') {\n';
-  if (Blockly.Dart.STATEMENT_SUFFIX) {
-    // Inject any statement suffix here since the regular one at the end
-    // will not get executed if the return is triggered.
-    code += Blockly.Dart.prefixLines(
-        Blockly.Dart.injectId(Blockly.Dart.STATEMENT_SUFFIX, block),
-        Blockly.Dart.INDENT);
-  }
   if (block.hasReturnValue_) {
     var value = Blockly.Dart.valueToCode(block, 'VALUE',
         Blockly.Dart.ORDER_NONE) || 'null';

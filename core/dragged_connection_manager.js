@@ -26,15 +26,15 @@
 
 goog.provide('Blockly.DraggedConnectionManager');
 
-goog.require('Blockly.blockAnimations');
 goog.require('Blockly.RenderedConnection');
+
+goog.require('goog.math.Coordinate');
 
 
 /**
  * Class that controls updates to connections during drags.  It is primarily
  * responsible for finding the closest eligible connection and highlighting or
  * unhiglighting it as needed during a drag.
- * @deprecated July 2018. Use InsertionMarkerManager.
  * @param {!Blockly.BlockSvg} block The top block in the stack being dragged.
  * @constructor
  */
@@ -59,8 +59,8 @@ Blockly.DraggedConnectionManager = function(block) {
 
   /**
    * The connections on the dragging blocks that are available to connect to
-   * other blocks.  This includes all open connections on the top block,
-   * as well as the last connection on the block stack.
+   * other blocks.  This includes all open connections on the top block, as well
+   * as the last connection on the block stack.
    * Does not change during a drag.
    * @type {!Array.<!Blockly.RenderedConnection>}
    * @private
@@ -117,22 +117,11 @@ Blockly.DraggedConnectionManager.prototype.dispose = function() {
 /**
  * Return whether the block would be deleted if dropped immediately, based on
  * information from the most recent move event.
- * @return {boolean} True if the block would be deleted if dropped immediately.
+ * @return {boolean} true if the block would be deleted if dropped immediately.
  * @package
  */
 Blockly.DraggedConnectionManager.prototype.wouldDeleteBlock = function() {
   return this.wouldDeleteBlock_;
-};
-
-/**
- * Return whether the block would be connected if dropped immediately, based on
- * information from the most recent move event.
- * @return {boolean} True if the block would be connected if dropped
- *     immediately.
- * @package
- */
-Blockly.DraggedConnectionManager.prototype.wouldConnectBlock = function() {
-  return !!this.closestConnection_;
 };
 
 /**
@@ -149,8 +138,7 @@ Blockly.DraggedConnectionManager.prototype.applyConnections = function() {
       // Determine which connection is inferior (lower in the source stack).
       var inferiorConnection = this.localConnection_.isSuperior() ?
           this.closestConnection_ : this.localConnection_;
-      Blockly.blockAnimations.connectionUiEffect(
-          inferiorConnection.getSourceBlock());
+      inferiorConnection.getSourceBlock().connectionUiEffect();
       // Bring the just-edited stack to the front.
       var rootBlock = this.topBlock_.getRootBlock();
       rootBlock.bringToFront();
@@ -161,7 +149,7 @@ Blockly.DraggedConnectionManager.prototype.applyConnections = function() {
 
 /**
  * Update highlighted connections based on the most recent move location.
- * @param {!Blockly.utils.Coordinate} dxy Position relative to drag start,
+ * @param {!goog.math.Coordinate} dxy Position relative to drag start,
  *     in workspace units.
  * @param {?number} deleteArea One of {@link Blockly.DELETE_AREA_TRASH},
  *     {@link Blockly.DELETE_AREA_TOOLBOX}, or {@link Blockly.DELETE_AREA_NONE}.
@@ -175,8 +163,8 @@ Blockly.DraggedConnectionManager.prototype.update = function(dxy, deleteArea) {
     oldClosestConnection.unhighlight();
   }
 
-  // Prefer connecting over dropping into the trash can, but prefer dragging to
-  // the toolbox over connecting to other blocks.
+ // Prefer connecting over dropping into the trash can, but prefer dragging to
+ // the toolbox over connecting to other blocks.
   var wouldConnect = !!this.closestConnection_ &&
       deleteArea != Blockly.DELETE_AREA_TOOLBOX;
   var wouldDelete = !!deleteArea && !this.topBlock_.getParent() &&
@@ -218,14 +206,14 @@ Blockly.DraggedConnectionManager.prototype.addHighlighting_ = function() {
 /**
  * Populate the list of available connections on this block stack.  This should
  * only be called once, at the beginning of a drag.
- * @return {!Array.<!Blockly.RenderedConnection>} A list of available
+ * @return {!Array.<!Blockly.RenderedConnection>} a list of available
  *     connections.
  * @private
  */
 Blockly.DraggedConnectionManager.prototype.initAvailableConnections_ = function() {
   var available = this.topBlock_.getConnections_(false);
   // Also check the last connection on this stack
-  var lastOnStack = this.topBlock_.lastConnectionInStack();
+  var lastOnStack = this.topBlock_.lastConnectionInStack_();
   if (lastOnStack && lastOnStack != this.topBlock_.nextConnection) {
     available.push(lastOnStack);
   }
@@ -234,7 +222,7 @@ Blockly.DraggedConnectionManager.prototype.initAvailableConnections_ = function(
 
 /**
  * Find the new closest connection, and update internal state in response.
- * @param {!Blockly.utils.Coordinate} dxy Position relative to the drag start,
+ * @param {!goog.math.Coordinate} dxy Position relative to the drag start,
  *     in workspace units.
  * @return {boolean} Whether the closest connection has changed.
  * @private

@@ -32,14 +32,12 @@ goog.require('Blockly.PHP');
 Blockly.PHP['math_number'] = function(block) {
   // Numeric value.
   var code = parseFloat(block.getFieldValue('NUM'));
-  var order = code >= 0 ? Blockly.PHP.ORDER_ATOMIC :
-              Blockly.PHP.ORDER_UNARY_NEGATION;
   if (code == Infinity) {
     code = 'INF';
   } else if (code == -Infinity) {
     code = '-INF';
   }
-  return [code, order];
+  return [code, Blockly.PHP.ORDER_ATOMIC];
 };
 
 Blockly.PHP['math_arithmetic'] = function(block) {
@@ -139,7 +137,7 @@ Blockly.PHP['math_single'] = function(block) {
       code = 'atan(' + arg + ') / pi() * 180';
       break;
     default:
-      throw Error('Unknown math operator: ' + operator);
+      throw 'Unknown math operator: ' + operator;
   }
   return [code, Blockly.PHP.ORDER_DIVISION];
 };
@@ -188,7 +186,7 @@ Blockly.PHP['math_number_property'] = function(block) {
          '  return true;',
          '}']);
     code = functionName + '(' + number_to_check + ')';
-    return [code, Blockly.PHP.ORDER_FUNCTION_CALL];
+    return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
   }
   switch (dropdown_property) {
     case 'EVEN':
@@ -321,7 +319,7 @@ Blockly.PHP['math_on_list'] = function(block) {
       code = functionName + '(' + list + ')';
       break;
     default:
-      throw Error('Unknown operator: ' + func);
+      throw 'Unknown operator: ' + func;
   }
   return [code, Blockly.PHP.ORDER_FUNCTION_CALL];
 };
@@ -371,14 +369,4 @@ Blockly.PHP['math_random_int'] = function(block) {
 Blockly.PHP['math_random_float'] = function(block) {
   // Random fraction between 0 and 1.
   return ['(float)rand()/(float)getrandmax()', Blockly.PHP.ORDER_FUNCTION_CALL];
-};
-
-Blockly.PHP['math_atan2'] = function(block) {
-  // Arctangent of point (X, Y) in degrees from -180 to 180.
-  var argument0 = Blockly.PHP.valueToCode(block, 'X',
-      Blockly.PHP.ORDER_COMMA) || '0';
-  var argument1 = Blockly.PHP.valueToCode(block, 'Y',
-      Blockly.PHP.ORDER_COMMA) || '0';
-  return ['atan2(' + argument1 + ', ' + argument0 + ') / pi() * 180',
-      Blockly.PHP.ORDER_DIVISION];
 };
