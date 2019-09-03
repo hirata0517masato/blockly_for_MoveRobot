@@ -34,21 +34,20 @@ Blockly.Blocks.start = {
 	init() {
     this.jsonInit({
     
-    "message0": "スタート",
-    "message1": "%1",
+    message0: "スタート",
+    message1: "%1",
     
-    "args1": [{
-      "type": "input_statement",
-      "name": "DO"
+    args1: [{
+      type: "input_statement",
+      name: "DO"
     }],
     
-    "colour": "%{BKY_LOOPS_HUE}",  
+    colour: "%{BKY_LOOPS_HUE}",  
   });
   },
 };
 
 Blockly.JavaScript.start = function(block) {
-  const args0 = Blockly.JavaScript.valueToCode(block, 'DO', Blockly.JavaScript.ORDER_FUNCTION_CALL) || ' NOT ';
   var branch = Blockly.JavaScript.statementToCode(block, 'DO');
   branch = Blockly.JavaScript.addLoopTrap(branch, block.id);
   
