@@ -35,25 +35,6 @@ Blockly.JavaScript['text'] = function(block) {
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
-/**
- * Enclose the provided value in 'String(...)' function.
- * Leave string literals alone.
- * @param {string} value Code evaluating to a value.
- * @return {string} Code evaluating to a string.
- * @private
- */
-Blockly.JavaScript.text.forceString_ = function(value) {
-  if (Blockly.JavaScript.text.forceString_.strRegExp.test(value)) {
-    return value;
-  }
-  return 'String(' + value + ')';
-};
-
-/**
- * Regular expression to detect a single-quoted string literal.
- */
-Blockly.JavaScript.text.forceString_.strRegExp = /^\s*'([^']|\\')*'\s*$/;
-
 Blockly.JavaScript['text_join'] = function(block) {
   // Create a string made up of any number of elements of any type.
   switch (block.itemCount_) {
@@ -62,15 +43,14 @@ Blockly.JavaScript['text_join'] = function(block) {
     case 1:
       var element = Blockly.JavaScript.valueToCode(block, 'ADD0',
           Blockly.JavaScript.ORDER_NONE) || '\'\'';
-      var code = Blockly.JavaScript.text.forceString_(element);
+      var code = 'String(' + element + ')';
       return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
     case 2:
       var element0 = Blockly.JavaScript.valueToCode(block, 'ADD0',
           Blockly.JavaScript.ORDER_NONE) || '\'\'';
       var element1 = Blockly.JavaScript.valueToCode(block, 'ADD1',
           Blockly.JavaScript.ORDER_NONE) || '\'\'';
-      var code = Blockly.JavaScript.text.forceString_(element0) + ' + ' +
-          Blockly.JavaScript.text.forceString_(element1);
+      var code = 'String(' + element0 + ') + String(' + element1 + ')';
       return [code, Blockly.JavaScript.ORDER_ADDITION];
     default:
       var elements = new Array(block.itemCount_);
@@ -89,7 +69,7 @@ Blockly.JavaScript['text_append'] = function(block) {
       block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
   var value = Blockly.JavaScript.valueToCode(block, 'TEXT',
       Blockly.JavaScript.ORDER_NONE) || '\'\'';
-  return varName + ' += ' + Blockly.JavaScript.text.forceString_(value) + ';\n';
+  return varName + ' = String(' + varName + ') + String(' + value + ');\n';
 };
 
 Blockly.JavaScript['text_length'] = function(block) {
@@ -157,16 +137,16 @@ Blockly.JavaScript['text_charAt'] = function(block) {
       var code = functionName + '(' + text + ')';
       return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
   }
-  throw Error('Unhandled option (text_charAt).');
+  throw 'Unhandled option (text_charAt).';
 };
 
 /**
  * Returns an expression calculating the index into a string.
+ * @private
  * @param {string} stringName Name of the string, used to calculate length.
  * @param {string} where The method of indexing, selected by dropdown in Blockly
  * @param {string=} opt_at The optional offset when indexing from start/end.
  * @return {string} Index expression.
- * @private
  */
 Blockly.JavaScript.text.getIndex_ = function(stringName, where, opt_at) {
   if (where == 'FIRST') {
@@ -206,7 +186,7 @@ Blockly.JavaScript['text_getSubstring'] = function(block) {
         var at1 = '0';
         break;
       default:
-        throw Error('Unhandled option (text_getSubstring).');
+        throw 'Unhandled option (text_getSubstring).';
     }
     switch (where2) {
       case 'FROM_START':
@@ -221,7 +201,7 @@ Blockly.JavaScript['text_getSubstring'] = function(block) {
         var at2 = text + '.length';
         break;
       default:
-        throw Error('Unhandled option (text_getSubstring).');
+        throw 'Unhandled option (text_getSubstring).';
     }
     code = text + '.slice(' + at1 + ', ' + at2 + ')';
   } else {

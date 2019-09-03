@@ -28,6 +28,7 @@ goog.provide('Blockly.Input');
 
 goog.require('Blockly.Connection');
 goog.require('Blockly.FieldLabel');
+goog.require('goog.asserts');
 
 
 /**
@@ -41,7 +42,7 @@ goog.require('Blockly.FieldLabel');
  */
 Blockly.Input = function(type, name, block, connection) {
   if (type != Blockly.DUMMY_INPUT && !name) {
-    throw Error('Value inputs and statement inputs must have non-empty name.');
+    throw 'Value inputs and statement inputs must have non-empty name.';
   }
   /** @type {number} */
   this.type = type;
@@ -95,7 +96,7 @@ Blockly.Input.prototype.appendField = function(field, opt_name) {
  */
 Blockly.Input.prototype.insertFieldAt = function(index, field, opt_name) {
   if (index < 0 || index > this.fieldRow.length) {
-    throw Error('index ' + index + ' out of bounds.');
+    throw new Error('index ' + index + ' out of bounds.');
   }
 
   // Empty string, Null or undefined generates no field, unless field is named.
@@ -103,7 +104,7 @@ Blockly.Input.prototype.insertFieldAt = function(index, field, opt_name) {
     return index;
   }
   // Generate a FieldLabel when given a plain text field.
-  if (typeof field == 'string') {
+  if (goog.isString(field)) {
     field = new Blockly.FieldLabel(/** @type {string} */ (field));
   }
   field.setSourceBlock(this.sourceBlock_);
@@ -135,7 +136,7 @@ Blockly.Input.prototype.insertFieldAt = function(index, field, opt_name) {
 /**
  * Remove a field from this input.
  * @param {string} name The name of the field.
- * @throws {Error} if the field is not present.
+ * @throws {goog.asserts.AssertionError} if the field is not present.
  */
 Blockly.Input.prototype.removeField = function(name) {
   for (var i = 0, field; field = this.fieldRow[i]; i++) {
@@ -150,7 +151,7 @@ Blockly.Input.prototype.removeField = function(name) {
       return;
     }
   }
-  throw Error('Field "%s" not found.', name);
+  goog.asserts.fail('Field "%s" not found.', name);
 };
 
 /**
@@ -163,10 +164,9 @@ Blockly.Input.prototype.isVisible = function() {
 
 /**
  * Sets whether this input is visible or not.
- * Should only be used to collapse/uncollapse a block.
+ * Used to collapse/uncollapse a block.
  * @param {boolean} visible True if visible.
  * @return {!Array.<!Blockly.Block>} List of blocks to render.
- * @package
  */
 Blockly.Input.prototype.setVisible = function(visible) {
   var renderList = [];
@@ -205,7 +205,7 @@ Blockly.Input.prototype.setVisible = function(visible) {
  */
 Blockly.Input.prototype.setCheck = function(check) {
   if (!this.connection) {
-    throw Error('This input does not have a connection.');
+    throw 'This input does not have a connection.';
   }
   this.connection.setCheck(check);
   return this;

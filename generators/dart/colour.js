@@ -33,7 +33,7 @@ Blockly.Dart.addReservedWords('Math');
 
 Blockly.Dart['colour_picker'] = function(block) {
   // Colour picker.
-  var code = Blockly.Dart.quote_(block.getFieldValue('COLOUR'));
+  var code = '\'' + block.getFieldValue('COLOUR') + '\'';
   return [code, Blockly.Dart.ORDER_ATOMIC];
 };
 

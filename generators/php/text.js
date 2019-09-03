@@ -46,11 +46,11 @@ Blockly.PHP['text_join'] = function(block) {
     return [code, Blockly.PHP.ORDER_FUNCTION_CALL];
   } else if (block.itemCount_ == 2) {
     var element0 = Blockly.PHP.valueToCode(block, 'ADD0',
-        Blockly.PHP.ORDER_ATOMIC) || '\'\'';
+        Blockly.PHP.ORDER_NONE) || '\'\'';
     var element1 = Blockly.PHP.valueToCode(block, 'ADD1',
-        Blockly.PHP.ORDER_ATOMIC) || '\'\'';
+        Blockly.PHP.ORDER_NONE) || '\'\'';
     var code = element0 + ' . ' + element1;
-    return [code, Blockly.PHP.ORDER_STRING_CONCAT];
+    return [code, Blockly.PHP.ORDER_ADDITION];
   } else {
     var elements = new Array(block.itemCount_);
     for (var i = 0; i < block.itemCount_; i++) {
@@ -152,7 +152,7 @@ Blockly.PHP['text_charAt'] = function(block) {
       code = functionName + '(' + text + ')';
       return [code, Blockly.PHP.ORDER_FUNCTION_CALL];
   }
-  throw Error('Unhandled option (text_charAt).');
+  throw 'Unhandled option (text_charAt).';
 };
 
 Blockly.PHP['text_getSubstring'] = function(block) {
