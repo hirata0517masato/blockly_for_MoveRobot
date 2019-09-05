@@ -1,10 +1,10 @@
 ﻿function setMission1() {
-   
-    const pre = document.getElementById('obstacle');
-
-    var code = "flag,0,9\n";
     
-    pre.innerHTML = code;
+    const pre = document.getElementById('obstacle');
+   
+    var code = "flag,0,9\n";
+  
+    pre.value = code;
 }
 
 function setMission2() {
@@ -13,7 +13,7 @@ function setMission2() {
 
     var code = "flag,-12,12\nflag,-12,-12\nflag,12,12\nflag,12,-12";
     
-    pre.innerHTML = code;
+    pre.value = code;
 }
 
 function setMission3() {
@@ -22,7 +22,7 @@ function setMission3() {
 
     var code = "flag,-9,5\nbox,-3,13\nbox,-3,11\nbox,-3,9\nbox,-3,7\nbox,-3,6\nbox,-3,4\nbox,-3,2\nflag,12,12\nbox,0,-10\nbox,0,-12";
     
-    pre.innerHTML = code;
+    pre.value = code;
 }
 
 

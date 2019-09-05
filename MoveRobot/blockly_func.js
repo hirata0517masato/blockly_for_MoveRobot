@@ -25,7 +25,7 @@
 
   			var code = trans();
 		
-  			pre.innerHTML = code;
+  			pre.value = code;
 		}
 
 		function saveCode(){
