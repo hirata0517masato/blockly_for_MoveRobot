@@ -115,8 +115,6 @@
       function window_layout() {
 
 	  var window_W = window.innerWidth;
-	 // window_W  = document.documentElement.clientWidth;
-	//  window_W = window.innerWidth;
 	  var window_H = window.innerHeight;
 	  
 	  var blocklyDiv = document.getElementById("blocklyDiv");
@@ -126,12 +124,6 @@
 	  blocklyDiv.style.height = blocklyDiv_h + "px";
 	  blocklyDiv.style.left = "0px";
 
-	  //alert(blocklyDiv_w);
-	  //alert(blocklyDiv.style.width);
-	   //alert(blocklyDiv.style.left);
-
-
-	  
 	  var code = document.getElementById("code");
 	  var code_w = (window_W /3) -20;//* 0.85;
 	  var code_h = blocklyDiv_h;
@@ -143,15 +135,17 @@
 	  var gameContainer_h = window_H / 2;
 	  var gameContainer_w = gameContainer_h / 9 * 16;
 	  var gameContainer_top = (blocklyDiv_h +50);
-	/*  if(gameContainer_w > blocklyDiv_w){
+	  
+	  if(gameContainer_w > blocklyDiv_w){
+	      //alert("outW");
 	      gameContainer_w =  blocklyDiv_w;
 	      gameContainer_h = gameContainer_w / 16 * 9;
-	      }*/
-	 /* if( gameContainer_top + gameContainer_h > window_H){
-	     
+	  }
+	  if( gameContainer_top + gameContainer_h > window_H){
+	      //alert("outH");
 	      gameContainer_h = window_H - gameContainer_top;
 	      gameContainer_w = gameContainer_h / 9 * 16;
-	  }*/
+	  }
 	  gameContainer.style.width = gameContainer_w + "px";
 	  gameContainer.style.height = gameContainer_h + "px";
 	  gameContainer.style.left = (blocklyDiv_w/2 - gameContainer_w/2) +"px";
@@ -166,7 +160,7 @@
 	  obstacle.style.width = obstacle_w + "px";
 	  obstacle.style.height = obstacle_h + "px";
 	  obstacle.style.left = blocklyDiv_w + "px";
-	  obstacle.style.top = (code_h + 70) + "px";
+	  obstacle.style.top = (code_h + 60) + "px";
       }
 
       
