@@ -3,11 +3,11 @@
     <meta charset="utf-8">
     <meta http-equiv=”Pragma” content=”no-cache”>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>Unity WebGL Player | MoveRobot</title>
-		
+    <title>Unity WebGL Player | MoveRobot</title>
+    
     <style type="text/css">
-			.big { font-size:15pt; }
-		</style>
+      .big { font-size:15pt; }
+    </style>
 
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
@@ -18,146 +18,167 @@
     </script>
 
     <script src="../blockly_compressed.js"></script>
-	<script src="../blocks_compressed.js"></script>
-	<script src="../javascript_compressed.js"></script>
+    <script src="../blocks_compressed.js"></script>
+    <script src="../javascript_compressed.js"></script>
 
-	<script src="../msg/js/ja.js"></script>
+    <script src="../msg/js/ja.js"></script>
 
-	<script src="output_block.js"></script>
-	<script src="input_block.js"></script>
-	<script src="custom_block.js"></script>
-
-
-	<xml id="toolbox" style="display: none">
-		<category name="もし" colour="210">
-			<block type="controls_if"></block>
-			<block type="controls_ifelse"></block>
-  			<block type="logic_compare"></block>
-	    	<block type="logic_operation"></block>
-			<block type="logic_boolean"></block>
-  		</category>
-  	
-  		<category name="くりかえし" colour="120">
-			<block type="start"></block>
-	      	<block type="controls_repeat_ext"></block>
-	      	<block type="controls_repeat"></block>
-    	  	<block type="controls_whileUntil"></block>
-      	  	<block type="controls_for"></block>
-    	</category>
-
-    	<category name="モータ" colour="60">
-    		<block type="motor_f"></block>
-    		<block type="motor_stop"></block>
-    		<block type="motor_b"></block>
-    		<block type="motor_l"></block>
-    		<block type="motor_r"></block>
-    		<block type="motor_ll"></block>
-    		<block type="motor_rl"></block>
-    		<block type="motor"></block>
-		</category>
-
-		<category name="センサー" colour="000">
-    		<block type="bumper"></block>
-    		<block type="compass"></block>
-    		<block type="distance_f"></block>
-    		<block type="distance_b"></block>
-    		<block type="distance_l"></block>
-    		<block type="distance_r"></block>
-		</category>
-	
-  		<category name="すうじ" colour="230">
-    		<block type="math_number"></block>
-    		<block type="math_arithmetic"></block>
-  		</category>
-  	
-  		<category name="変数" colour="330" custom="VARIABLE">
-  		</category>
-	</xml>
-</head>
+    <script src="output_block.js"></script>
+    <script src="input_block.js"></script>
+    <script src="custom_block.js"></script>
 
 
-<body>
+    <xml id="toolbox" style="display: none">
+      <category name="もし" colour="210">
+	<block type="controls_if"></block>
+	<block type="controls_ifelse"></block>
+  	<block type="logic_compare"></block>
+	<block type="logic_operation"></block>
+	<block type="logic_boolean"></block>
+      </category>
+      
+      <category name="くりかえし" colour="120">
+	<block type="start"></block>
+	<block type="controls_repeat_ext"></block>
+	<block type="controls_repeat"></block>
+    	<block type="controls_whileUntil"></block>
+      	<block type="controls_for"></block>
+      </category>
 
-	<button id="showCode">へんかん</button>
-	<button id="saveCode">ほぞん</button>
-	<button id="copyCode">コピー</button>
+      <category name="モータ" colour="60">
+    	<block type="motor_f"></block>
+    	<block type="motor_stop"></block>
+    	<block type="motor_b"></block>
+    	<block type="motor_l"></block>
+    	<block type="motor_r"></block>
+    	<block type="motor_ll"></block>
+    	<block type="motor_rl"></block>
+    	<block type="motor"></block>
+      </category>
 
-	<button id="mission1"　style="position:absolute">ミッション1</button>
-	<button id="mission2"　style="position:absolute">ミッション2</button>
-	<button id="mission3"　style="position:absolute">ミッション3</button>
-	<br>
-	
-	<div id="blocklyDiv" style="position:absolute; height: 400px; width: 800px;"></div>
-
-	<div>
-	<h2><textarea id="code" class="big"
-		 style="position:absolute; height: 480px; width: 400px; border-radius: 10px; box-shadow: 5px 5px 5px #AAA; border-style: solid ; border-width: 1px;
-		 	-webkit-transform: translate(0%, -5%); transform: translate(0%, -5%);"></textarea></h2>
-	</div>
-
-	<div class="gameContainer" id="gameContainer" style="position:absolute; width: 800px; height: 600px"></div>
-
-	<div>
-		<h2><textarea id="obstacle" class="big"
-			 style="position:absolute; height: 480px; width: 400px; border-radius: 10px; box-shadow: 5px 5px 5px #AAA; border-style: solid ; border-width: 1px;
-				 -webkit-transform: translate(0%, -5%); transform: translate(0%, -5%);"></textarea></h2>
-	</div>
-
-	
+      <category name="センサー" colour="000">
+    	<block type="bumper"></block>
+    	<block type="compass"></block>
+    	<block type="distance_f"></block>
+    	<block type="distance_b"></block>
+    	<block type="distance_l"></block>
+    	<block type="distance_r"></block>
+      </category>
+      
+      <category name="すうじ" colour="230">
+    	<block type="math_number"></block>
+    	<block type="math_arithmetic"></block>
+      </category>
+      
+      <category name="変数" colour="330" custom="VARIABLE">
+      </category>
+    </xml>
+  </head>
 
 
-  <script type="text/javascript">
+  <body>
 
-	//サイズの表示
-	function window_layout() {
-		var window_W = window.innerWidth;
-		var window_H = window.innerHeight;
-		
-		var blocklyDiv = document.getElementById("blocklyDiv");
-		var blocklyDiv_w = window_W *2 /3;
-		var blocklyDiv_h = window_H *2 /5;
-		blocklyDiv.style.width = blocklyDiv_w + "px";
-		blocklyDiv.style.height = blocklyDiv_h + "px";
-		blocklyDiv.style.left = "0px";
+    <button id="showCode">へんかん</button>
+    <button id="saveCode">ほぞん</button>
+    <button id="copyCode">コピー</button>
 
-		var code = document.getElementById("code");
-		var code_w = (window_W /3) -20;//* 0.85;
-		var code_h = blocklyDiv_h;
-		code.style.width = code_w + "px";
-		code.style.height = code_h + "px";
-		code.style.left = blocklyDiv_w + "px";
+    <button id="mission1"　style="position:absolute">ミッション1</button>
+    <button id="mission2"　style="position:absolute">ミッション2</button>
+    <button id="mission3"　style="position:absolute">ミッション3</button>
+    <br>
 
-		var gameContainer = document.getElementById("gameContainer");
-		var gameContainer_h = window_H / 2;
-		var gameContainer_w = gameContainer_h / 9 * 16;
-		gameContainer.style.width = gameContainer_w + "px";
-		gameContainer.style.height = gameContainer_h + "px";
-		gameContainer.style.left = (blocklyDiv_w/2 - gameContainer_w/2) +"px";
-		gameContainer.style.top = (blocklyDiv_h + 50) + "px";
-		
-		//var webglcontent = document.getElementById("webgl-content");
-		//webglcontent.style.left = "150px";
-		
-		var obstacle = document.getElementById("obstacle");
-		var obstacle_w = code_w;
-		var obstacle_h = gameContainer_h;
-		obstacle.style.width = obstacle_w + "px";
-		obstacle.style.height = obstacle_h + "px";
-		obstacle.style.left = blocklyDiv_w + "px";
-		obstacle.style.top = (code_h + 70) + "px";
-	}
+    
+   
+     <div id="blocklyDiv" style="position:absolute; height: 400px; width: 800px;"></div>
+   
+    
+    <div>
+      <h2><textarea id="code" class="big"
+		    style="position:absolute; height: 480px; width: 400px; border-radius: 10px; box-shadow: 5px 5px 5px #AAA; border-style: solid ; border-width: 1px;
+		 	   -webkit-transform: translate(0%, -5%); transform: translate(0%, -5%);"></textarea></h2>
+    </div>
 
-	window.onload = function(){
-    	window_layout();
-	}
-	window.onresize = function() {
-    	window_layout();
-	}
-	</script> 
-	
-	<script src="blockly_func.js"></script>
-	<script src="mission_func.js"></script>
+    <div class="gameContainer" id="gameContainer" style="position:absolute; width: 800px; height: 600px"></div>
 
- 
-</body>
+    <div>
+      <h2><textarea id="obstacle" class="big"
+		    style="position:absolute; height: 480px; width: 400px; border-radius: 10px; box-shadow: 5px 5px 5px #AAA; border-style: solid ; border-width: 1px;
+			   -webkit-transform: translate(0%, -5%); transform: translate(0%, -5%);"></textarea></h2>
+    </div>
+
+    
+
+
+    <script type="text/javascript">
+
+      //サイズの表示
+      function window_layout() {
+
+	  var window_W = window.innerWidth;
+	 // window_W  = document.documentElement.clientWidth;
+	//  window_W = window.innerWidth;
+	  var window_H = window.innerHeight;
+	  
+	  var blocklyDiv = document.getElementById("blocklyDiv");
+	  var blocklyDiv_w = window_W *2 /3;
+	  var blocklyDiv_h = window_H *2 /5;
+	  blocklyDiv.style.width = blocklyDiv_w + "px";
+	  blocklyDiv.style.height = blocklyDiv_h + "px";
+	  blocklyDiv.style.left = "0px";
+
+	  //alert(blocklyDiv_w);
+	  //alert(blocklyDiv.style.width);
+	   //alert(blocklyDiv.style.left);
+
+
+	  
+	  var code = document.getElementById("code");
+	  var code_w = (window_W /3) -20;//* 0.85;
+	  var code_h = blocklyDiv_h;
+	  code.style.width = code_w + "px";
+	  code.style.height = code_h + "px";
+	  code.style.left = blocklyDiv_w + "px";
+
+	  var gameContainer = document.getElementById("gameContainer");
+	  var gameContainer_h = window_H / 2;
+	  var gameContainer_w = gameContainer_h / 9 * 16;
+	  var gameContainer_top = (blocklyDiv_h +50);
+	/*  if(gameContainer_w > blocklyDiv_w){
+	      gameContainer_w =  blocklyDiv_w;
+	      gameContainer_h = gameContainer_w / 16 * 9;
+	      }*/
+	 /* if( gameContainer_top + gameContainer_h > window_H){
+	     
+	      gameContainer_h = window_H - gameContainer_top;
+	      gameContainer_w = gameContainer_h / 9 * 16;
+	  }*/
+	  gameContainer.style.width = gameContainer_w + "px";
+	  gameContainer.style.height = gameContainer_h + "px";
+	  gameContainer.style.left = (blocklyDiv_w/2 - gameContainer_w/2) +"px";
+	  gameContainer.style.top = gameContainer_top + "px";
+	  
+	  //var webglcontent = document.getElementById("webgl-content");
+	  //webglcontent.style.left = "150px";
+	  
+	  var obstacle = document.getElementById("obstacle");
+	  var obstacle_w = code_w;
+	  var obstacle_h = gameContainer_h;
+	  obstacle.style.width = obstacle_w + "px";
+	  obstacle.style.height = obstacle_h + "px";
+	  obstacle.style.left = blocklyDiv_w + "px";
+	  obstacle.style.top = (code_h + 70) + "px";
+      }
+
+      
+      window.onresize = function() {
+    	 window_layout();
+      }
+      window_layout();
+    </script> 
+    
+    <script src="blockly_func.js"></script>
+    <script src="mission_func.js"></script>
+
+    
+  </body>
 </html>
