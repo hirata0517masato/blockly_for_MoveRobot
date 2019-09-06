@@ -38,7 +38,6 @@
       </category>
       
       <category name="くりかえし" colour="120">
-	<block type="start"></block>
 	<block type="controls_repeat_ext"></block>
 	<block type="controls_repeat"></block>
     	<block type="controls_whileUntil"></block>
@@ -72,15 +71,21 @@
       
       <category name="変数" colour="330" custom="VARIABLE">
       </category>
+
+      <category name="スタート" colour="120">
+	<block type="start"></block>
+      </category>
     </xml>
   </head>
 
 
   <body>
 
-    <button id="showCode">へんかん</button>
-    <button id="saveCode">ほぞん</button>
-    <button id="copyCode">コピー</button>
+    <!--<button id="showCode">へんかん</button>-->
+    <button id="saveXml">ブロックのほぞん</button>
+    <button id="loadXml">ブロックのよみこみ</button>
+    <button id="saveCode">コードのほぞん</button>
+    <button id="copyCode">コードのコピー</button>
 
     <button id="mission1"　style="position:absolute">ミッション1</button>
     <button id="mission2"　style="position:absolute">ミッション2</button>
@@ -102,6 +107,12 @@
 
     <div>
       <h2><textarea id="obstacle" class="big"
+		    style="position:absolute; height: 480px; width: 400px; border-radius: 10px; box-shadow: 5px 5px 5px #AAA; border-style: solid ; border-width: 1px;
+			   -webkit-transform: translate(0%, -5%); transform: translate(0%, -5%);"></textarea></h2>
+    </div>
+
+    <div>
+      <h2><textarea id="XmlText" class="big"
 		    style="position:absolute; height: 480px; width: 400px; border-radius: 10px; box-shadow: 5px 5px 5px #AAA; border-style: solid ; border-width: 1px;
 			   -webkit-transform: translate(0%, -5%); transform: translate(0%, -5%);"></textarea></h2>
     </div>
@@ -161,6 +172,15 @@
 	  obstacle.style.height = obstacle_h + "px";
 	  obstacle.style.left = blocklyDiv_w + "px";
 	  obstacle.style.top = (code_h + 60) + "px";
+
+
+	  var XmlText = document.getElementById("XmlText");
+	  var XmlText_w = code_w;
+	  var XmlText_h = gameContainer_h;
+	  XmlText.style.width = XmlText_w + "px";
+	  XmlText.style.height = XmlText_h + "px";
+	  XmlText.style.left = blocklyDiv_w + "px";
+	  XmlText.style.top = (window_H ) + "px";
       }
 
       
