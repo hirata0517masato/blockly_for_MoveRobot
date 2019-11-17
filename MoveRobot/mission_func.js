@@ -25,7 +25,6 @@ function setMission3() {
     pre.value = code;
 }
 
-
 document.getElementById('mission1').addEventListener('click', setMission1, false);
 document.getElementById('mission2').addEventListener('click', setMission2, false);
 document.getElementById('mission3').addEventListener('click', setMission3, false);
