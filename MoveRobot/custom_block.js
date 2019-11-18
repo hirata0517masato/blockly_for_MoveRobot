@@ -53,3 +53,59 @@ Blockly.JavaScript.start = function(block) {
   
   return "void loop(){ <br>" + branch + "}<br>";
 };
+
+Blockly.Blocks.delay_ms = {
+  init() {
+    this.jsonInit({
+        message0: '%1ミリびょうまつ',
+      args0: [
+        {
+          type: "field_number",
+            name: 'TIME',
+	    "value": 1,
+	    "min": 0,
+        }
+      ],
+	"previousStatement": null,
+      "nextStatement": null,
+      inputsInline: true,
+      colour: "%{BKY_LOOPS_HUE}",
+      
+    });
+  },
+};
+
+Blockly.JavaScript.delay_ms = function(block) {
+  const args0 = block.getFieldValue('TIME');
+ 
+    return "delay(" + args0 + "); <br>";
+};
+
+
+Blockly.Blocks.delay_s = {
+  init() {
+    this.jsonInit({
+        message0: '%1びょうまつ',
+      args0: [
+        {
+            type: "field_number",
+            name: 'TIME',
+	    "value": 1,
+	    "min": 0,
+        }
+      ],
+	"previousStatement": null,
+      "nextStatement": null,
+      inputsInline: true,
+      colour: "%{BKY_LOOPS_HUE}",
+      
+    });
+  },
+};
+
+Blockly.JavaScript.delay_s = function(block) {
+    const args0 = block.getFieldValue('TIME');
+    if(args0 == "0") return "delay(" + args0 + "); <br>";
+    
+    return "delay(" + args0 + "000); <br>";
+};
