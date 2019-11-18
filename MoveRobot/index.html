@@ -13,7 +13,7 @@
 
     <script type="text/javascript">
       function MissionCompleat(){
-	  alert("やったね！");
+	  //alert("やったね！");
       }
     </script>
     
@@ -46,8 +46,8 @@
       </category>
       
       <category name="くりかえし" colour="120">
-	<block type="controls_repeat_ext"></block>
 	<block type="controls_repeat"></block>
+	<block type="controls_repeat_ext"></block>
     	<block type="controls_whileUntil"></block>
       	<block type="controls_for"></block>
       </category>
@@ -63,7 +63,13 @@
     	<block type="motor"></block>
       </category>
 
+      <category name="じかん" colour="120">
+	<block type="delay_ms"></block>
+	<block type="delay_s"></block>
+      </category>
+      
       <category name="センサー" colour="000">
+	<block type="bumper_hit"></block>
     	<block type="bumper"></block>
     	<block type="compass"></block>
     	<block type="distance_f"></block>

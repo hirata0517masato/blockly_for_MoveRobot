@@ -1,8 +1,24 @@
-Blockly.Blocks.bumper = {
+Blockly.Blocks.bumper_hit = {
   init() {
     this.jsonInit({
     	message0: 'バンパーが当たっていたら',
       output: 'Boolean',
+      inputsInline: true,
+      colour: 000,
+      
+    });
+  },
+};
+
+Blockly.JavaScript.bumper_hit = function(block) {
+  return ["bumper() == 1",Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+
+Blockly.Blocks.bumper = {
+  init() {
+    this.jsonInit({
+    	message0: 'バンパー',
+      output: 'Number',
       inputsInline: true,
       colour: 000,
       

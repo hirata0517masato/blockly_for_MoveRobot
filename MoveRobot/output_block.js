@@ -4,12 +4,18 @@ Blockly.Blocks.motor = {
         message0: 'モータ 左%1 右%2',
       args0: [
         {
-          type: 'input_value',
-          name: 'LEFT',
+          type: "field_number",
+            name: 'LEFT',
+	    "value": 0,
+	    "min": -100,
+	    "max":100,
         },
         {
-          type: 'input_value',
-          name: 'RIGHT',
+          type: "field_number",
+            name: 'RIGHT',
+	    "value": 0,
+	    "min": -100,
+	    "max":100,
         },
       ],
       "previousStatement": null,
@@ -22,9 +28,8 @@ Blockly.Blocks.motor = {
 };
 
 Blockly.JavaScript.motor = function(block) {
-  const args0 = Blockly.JavaScript.valueToCode(block, 'LEFT', Blockly.JavaScript.ORDER_FUNCTION_CALL) || '0';
-  const args1 = Blockly.JavaScript.valueToCode(block, 'RIGHT', Blockly.JavaScript.ORDER_FUNCTION_CALL) || '0';
-
+  const args0 = block.getFieldValue('LEFT');
+    const args1 = block.getFieldValue('RIGHT');
   return "motor(" + args0 + "," + args1 + "); <br>";
 };
 
