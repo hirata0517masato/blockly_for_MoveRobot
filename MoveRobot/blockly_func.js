@@ -149,8 +149,18 @@ startXml() ;
 
 setInterval(autoXml, 500);
 
-//document.getElementById('showCode').addEventListener('click', showCode, false);
-document.getElementById('saveCode').addEventListener('click', saveCode, false);
-document.getElementById('copyCode').addEventListener('click', copyCode, false);
-document.getElementById('saveXml').addEventListener('click', saveXml, false);
-document.getElementById('loadXml').addEventListener('click', loadXml, false);
+if(document.getElementById("showCode") != null){
+    document.getElementById('showCode').addEventListener('click', showCode, false);
+}
+if(document.getElementById("saveCode") != null){
+    document.getElementById('saveCode').addEventListener('click', saveCode, false);
+}
+if(document.getElementById("copyCod") != null){
+    document.getElementById('copyCode').addEventListener('click', copyCode, false);
+}
+if(document.getElementById("saveXml") != null){
+    document.getElementById('saveXml').addEventListener('click', saveXml, false);
+}
+if(document.getElementById("loadXml") != null){
+    document.getElementById('loadXml').addEventListener('click', loadXml, false);
+}
